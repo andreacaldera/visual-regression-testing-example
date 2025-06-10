@@ -17,3 +17,18 @@ jobs:
       - uses: actions/checkout@v4
 
       - uses: ./.github/actions/prepare
+
+  e2e-test:
+    name: E2E test
+    needs: prepare
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ./.github/actions/prepare
+
+      - name: Install playwright binaries
+        run: pnpm exec playwright install
+
+      - name: Run e2e test
+        run: pnpm e2e-test
