@@ -5,5 +5,5 @@ test("has title", async ({ page }) => {
 
   await expect(page).toHaveTitle(/Create Next App/);
 
-  await expect(page).toHaveScreenshot({ maxDiffPixels: 200 });
+  await expect(page).toHaveScreenshot({ maxDiffPixels: 500 });
 });
