@@ -10,24 +10,18 @@ import {
   Suite,
 } from "@playwright/test/reporter";
 
-interface VisualRegressionReporterOptions {
-  outputDir?: string;
-  keepFailedSnapshots?: boolean;
-  generateDiff?: boolean;
-}
+const options = {
+  outputDir: "test-results/visual-diffs",
+  keepFailedSnapshots: true,
+  generateDiff: true,
+};
 
 class VisualRegressionReporter implements Reporter {
-  private options: Required<VisualRegressionReporterOptions>;
-
-  constructor(options: VisualRegressionReporterOptions = {}) {
-    this.options = {
-      outputDir: "test-results/visual-diffs",
-      keepFailedSnapshots: true,
-      generateDiff: true,
-      ...options,
-    };
-  }
-
+  private options = {
+    outputDir: "test-results/visual-diffs",
+    keepFailedSnapshots: true,
+    generateDiff: true,
+  };
   onBegin(_config: FullConfig, _suite: Suite) {
     if (!fs.existsSync(this.options.outputDir)) {
       fs.mkdirSync(this.options.outputDir, { recursive: true });
