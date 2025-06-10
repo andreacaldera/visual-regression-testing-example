@@ -15,7 +15,7 @@ If visual regression are occurring, the end-to-end test should fail.
 In order to update end-to-end snapshot run:
 
 ```bash
-    pnpm e2e-test:e2e-test:update-snapshot
+    pnpm e2e-test:e2e-test:update-snapshots
 ```
 
 ## PR validation
