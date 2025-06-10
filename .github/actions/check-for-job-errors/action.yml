@@ -1,0 +1,17 @@
+name: Check for job errors
+description: Check for Github job errors
+
+inputs:
+  needs:
+    description: The Github job needs
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - name: Check jobs for errors
+      uses: actions/github-script@v7
+      with:
+        script: |
+          const checkJobsForErrors = require('./.github/js/check-jobs-for-errors.js');
+          checkJobsForErrors({ core, jobs: ${{ inputs.needs }} });

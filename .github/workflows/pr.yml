@@ -1,0 +1,52 @@
+name: Pull request validation
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+    branches:
+      - main
+
+permissions:
+  actions: read
+  contents: read
+
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ./.github/actions/prepare
+
+  e2e-test:
+    needs: prepare
+    runs-on: macos-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ./.github/actions/prepare
+
+      - name: Install playwright binaries
+        run: pnpm exec playwright install
+
+      - name: Run e2e test
+        run: pnpm e2e-test
+
+      - name: Visual regression
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: visual-regression
+          path: e2e-tests/example.spec.ts-snapshots
+
+  pr-validation:
+    needs: [prepare, e2e-test]
+    if: ${{ always() }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ./.github/actions/check-for-job-errors
+        with:
+          needs: ${{ toJson(needs) }}

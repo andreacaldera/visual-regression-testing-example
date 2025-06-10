@@ -8,8 +8,8 @@ export default defineConfig({
   fullyParallel: true,
   projects: [
     {
-      name: "Android mobile",
-      use: { ...devices["Pixel 7"] },
+      name: "Desktop Chrome",
+      use: { ...devices["Desktop Chrome"] },
     },
   ],
   reporter: "html",
