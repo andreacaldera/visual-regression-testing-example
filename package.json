@@ -14,7 +14,7 @@
     "start": "next start",
     "lint": "next lint",
     "e2e-test": "playwright test",
-    "update-e2e-snapshots": "playwright test --update-snapshots"
+    "e2e-test:update-snapshot": "playwright test --update-snapshots"
   },
   "dependencies": {
     "next": "15.3.3",
@@ -25,9 +25,12 @@
     "@playwright/test": "^1.52.0",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
+    "@types/pngjs": "^6.0.5",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "pixelmatch": "^7.1.0",
     "playwright": "^1.52.0",
+    "pngjs": "^7.0.0",
     "tailwindcss": "^4",
     "typescript": "^5"
   }
