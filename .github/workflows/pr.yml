@@ -20,7 +20,8 @@ jobs:
 
   e2e-test:
     needs: prepare
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
+
     steps:
       - uses: actions/checkout@v4
 
@@ -42,7 +43,7 @@ jobs:
   pr-validation:
     needs: [prepare, e2e-test]
     if: ${{ always() }}
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
