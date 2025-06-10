@@ -1,0 +1,28 @@
+import { defineConfig, devices } from "@playwright/test";
+
+/**
+ * See https://playwright.dev/docs/test-configuration.
+ */
+export default defineConfig({
+  forbidOnly: !!process.env.CI,
+  fullyParallel: true,
+  projects: [
+    {
+      name: "Android mobile",
+      use: { ...devices["Pixel 7"] },
+    },
+  ],
+  reporter: "html",
+  retries: process.env.CI ? 2 : 0,
+  testDir: "./e2e-tests",
+  use: {
+    baseURL: "http://127.0.0.1:3000",
+    trace: "on-first-retry",
+  },
+  webServer: {
+    command: "pnpm dev",
+    reuseExistingServer: !process.env.CI,
+    url: "http://127.0.0.1:3000",
+  },
+  workers: process.env.CI ? 1 : undefined,
+});
