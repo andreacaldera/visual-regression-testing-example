@@ -14,7 +14,7 @@
     "start": "next start",
     "lint": "next lint",
     "e2e-test": "playwright test",
-    "e2e-test:update-snapshot": "playwright test --update-snapshots"
+    "e2e-test:update-snapshots": "playwright test --update-snapshots"
   },
   "dependencies": {
     "next": "15.3.3",
