@@ -19,7 +19,6 @@ jobs:
       - uses: ./.github/actions/prepare
 
   e2e-test:
-    name: E2E test
     needs: prepare
     runs-on: ubuntu-latest
     steps:
@@ -41,7 +40,6 @@ jobs:
           path: e2e-tests/example.spec.ts-snapshots
 
   pr-validation:
-    name: PR validation
     needs: [prepare, e2e-test]
     if: ${{ always() }}
     runs-on: ubuntu-latest
