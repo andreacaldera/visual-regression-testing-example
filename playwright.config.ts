@@ -12,7 +12,13 @@ export default defineConfig({
       use: { ...devices["Desktop Chrome"] },
     },
   ],
-  reporter: "html",
+  expect: {
+    toHaveScreenshot: {
+      threshold: 0.1,
+      maxDiffPixels: 1000,
+    },
+  },
+  reporter: [["html"], ["./e2e-tests/custom-visual-reporter.ts"]],
   retries: process.env.CI ? 2 : 0,
   testDir: "./e2e-tests",
   use: {
