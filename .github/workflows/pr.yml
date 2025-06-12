@@ -12,6 +12,7 @@ permissions:
 
 jobs:
   prepare:
+    name: Prepare
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -19,6 +20,7 @@ jobs:
       - uses: ./.github/actions/prepare
 
   e2e-test:
+    name: End to end test
     needs: prepare
     runs-on: macos-latest
 
@@ -43,6 +45,7 @@ jobs:
             playwright-report/
 
   pr-validation:
+    name: Pull request validation
     needs: [prepare, e2e-test]
     if: ${{ always() }}
     runs-on: ubuntu-latest
