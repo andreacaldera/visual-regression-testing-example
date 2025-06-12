@@ -1,20 +1,12 @@
+import {
+  type Reporter,
+  type TestCase,
+  type TestResult,
+} from "@playwright/test/reporter";
 import fs from "fs";
 import path from "path";
-import { PNG } from "pngjs";
 import pixelmatch from "pixelmatch";
-import {
-  Reporter,
-  TestCase,
-  TestResult,
-  FullConfig,
-  Suite,
-} from "@playwright/test/reporter";
-
-const options = {
-  outputDir: "test-results/visual-diffs",
-  keepFailedSnapshots: true,
-  generateDiff: true,
-};
+import { PNG } from "pngjs";
 
 class VisualRegressionReporter implements Reporter {
   private options = {
@@ -22,20 +14,16 @@ class VisualRegressionReporter implements Reporter {
     keepFailedSnapshots: true,
     generateDiff: true,
   };
-  onBegin(_config: FullConfig, _suite: Suite) {
-    if (!fs.existsSync(this.options.outputDir)) {
+  onBegin() {
+    if (!fs.existsSync(this.options.outputDir))
       fs.mkdirSync(this.options.outputDir, { recursive: true });
-    }
   }
 
   onTestEnd(test: TestCase, result: TestResult) {
-    if (result.status === "failed") {
-      for (const attachment of result.attachments) {
-        if (["expected", "actual", "diff"].includes(attachment.name || "")) {
+    if (result.status === "failed")
+      for (const attachment of result.attachments)
+        if (["expected", "actual", "diff"].includes(attachment.name || ""))
           this.handleVisualRegression(test, result, attachment);
-        }
-      }
-    }
   }
 
   private handleVisualRegression(
@@ -53,9 +41,8 @@ class VisualRegressionReporter implements Reporter {
     const timestamp = new Date().toISOString().replace(/[:.]/g, "-");
 
     const outputPath = path.join(this.options.outputDir, safeTestName);
-    if (!fs.existsSync(outputPath)) {
+    if (!fs.existsSync(outputPath))
       fs.mkdirSync(outputPath, { recursive: true });
-    }
 
     if (attachment.name === "actual" && this.options.keepFailedSnapshots) {
       const actualPath = path.join(outputPath, `actual_${timestamp}.png`);
@@ -72,19 +59,18 @@ class VisualRegressionReporter implements Reporter {
       (attachment.name === "actual" && this.options.generateDiff)
     ) {
       const expectedAttachment = result.attachments.find(
-        (a) => a.name === "expected"
+        ({ name }) => name === "expected"
       );
       const actualAttachment = result.attachments.find(
-        (a) => a.name === "actual"
+        ({ name }) => name === "actual"
       );
 
-      if (expectedAttachment?.body && actualAttachment?.body) {
+      if (expectedAttachment?.body && actualAttachment?.body)
         this.generateAndSaveDiff(
           expectedAttachment.body,
           actualAttachment.body,
           path.join(outputPath, `diff_${timestamp}.png`)
         );
-      }
     }
   }
 

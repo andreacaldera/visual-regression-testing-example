@@ -18,12 +18,18 @@ export default defineConfig({
       maxDiffPixels: 1000,
     },
   },
-  reporter: [["html"], ["./e2e-tests/custom-visual-reporter.ts"]],
+  reporter: [
+    ["list"],
+    ["html", { open: "never" }],
+    ["github"],
+    ["./e2e-tests/custom-visual-reporter.ts"],
+  ],
   retries: process.env.CI ? 2 : 0,
   testDir: "./e2e-tests",
   use: {
     baseURL: "http://127.0.0.1:3000",
     trace: "on-first-retry",
+    screenshot: "on-first-failure",
   },
   webServer: {
     command: "pnpm dev",
