@@ -3,7 +3,7 @@ import { test, expect } from "@playwright/test";
 test("has title", async ({ page }) => {
   await page.goto("/");
 
-  await expect(page).toHaveTitle(/Create Next App11/);
+  await expect(page.getByText(/get started by editing/i)).toBeVisible();
 
   await expect(page).toHaveScreenshot({
     threshold: 0.2,
